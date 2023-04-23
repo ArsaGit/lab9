@@ -14,11 +14,26 @@ public class ItemService {
     private ItemRepository itemRepository;
 
     public ItemModel save(ItemModel itemModel) {
-        return itemRepository.save(itemModel);
+        try
+        {
+            itemRepository.save(itemModel);
+        } catch (Exception e) { return null; }
+
+        return itemModel;
     }
 
-    public void delete(Long id) {
-        itemRepository.deleteById(id);
+    public ItemModel save(String itemName) {
+        ItemModel itemModel = new ItemModel(itemName);
+        return this.save(itemModel);
+    }
+
+    public boolean delete(Long id) {
+        try
+        {
+            itemRepository.deleteById(id);
+        } catch (Exception e) { return false; }
+
+        return true;
     }
 
     public Iterable<ItemModel> getItemList() { return itemRepository.findAll(); }
